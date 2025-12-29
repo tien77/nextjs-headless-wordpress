@@ -32,8 +32,8 @@ export default function LoginForm() {
             if (result?.error) {
                 setError('Invalid username or password');
             } else {
-                router.refresh(); // Update server components
-                router.push('/');
+                // Force a full page reload to ensure session is active in Server Components
+                window.location.href = '/';
             }
         } catch (e) {
             setError('An unexpected error occurred');

@@ -22,6 +22,9 @@ export default async function Header() {
 						<Link href="/" className="transition-colors text-muted-foreground hover:text-primary">
 							Latest
 						</Link>
+						<Link href="/contact" className="transition-colors text-muted-foreground hover:text-primary">
+							Contact
+						</Link>
 						<Link href="/sample-page" className="transition-colors text-muted-foreground hover:text-primary">
 							Sample Page
 						</Link>

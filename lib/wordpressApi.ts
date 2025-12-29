@@ -361,3 +361,30 @@ export async function getViewer(authToken: string) {
   const json = await res.json();
   return json?.data?.viewer;
 }
+
+export async function registerUser(input: any) {
+  const data = await fetchAPI(
+    `
+    mutation RegisterUser($input: RegisterUserInput!) {
+      registerUser(input: $input) {
+        user {
+          id
+          username
+          email
+        }
+      }
+    }
+  `,
+    {
+      variables: {
+        input: {
+          clientMutationId: 'register',
+          username: input.username,
+          email: input.email,
+          password: input.password,
+        },
+      },
+    }
+  );
+  return data?.registerUser;
+}
