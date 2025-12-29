@@ -40,16 +40,18 @@ export default function PostCard({ post }: PostCardProps) {
 
 	return (
 		<Card className="group flex flex-col overflow-hidden border-none shadow-md transition-all hover:shadow-xl dark:bg-zinc-900/50">
-			<Link href={`/blog/${post.slug}`} className="relative block aspect-[16/9] overflow-hidden">
-				{post.featuredImage ? (
+			<Link href={`/blog/${post.slug}`} className="relative block aspect-video w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
+				{post.featuredImage?.node?.sourceUrl ? (
 					<Image
 						src={post.featuredImage.node.sourceUrl}
 						alt={post.featuredImage.node.altText || post.title}
 						fill
+						sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 						className="object-cover transition-transform duration-500 group-hover:scale-105"
+						priority={false}
 					/>
 				) : (
-					<div className="flex h-full w-full items-center justify-center bg-muted text-muted-foreground">
+					<div className="flex h-full w-full items-center justify-center text-muted-foreground">
 						No Image
 					</div>
 				)}
