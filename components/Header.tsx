@@ -18,11 +18,8 @@ export default function Header() {
 						<Link href="/" className="transition-colors text-muted-foreground hover:text-primary">
 							Latest
 						</Link>
-						<Link href="/category/technology" className="transition-colors text-muted-foreground hover:text-primary">
-							Tech
-						</Link>
-						<Link href="/category/lifestyle" className="transition-colors text-muted-foreground hover:text-primary">
-							Lifestyle
+						<Link href="/sample-page" className="transition-colors text-muted-foreground hover:text-primary">
+							Sample Page
 						</Link>
 					</nav>
 				</div>

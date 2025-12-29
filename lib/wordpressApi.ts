@@ -119,6 +119,33 @@ export async function getPostBySlug(slug: string) {
   return data?.post;
 }
 
+export async function getPageBySlug(slug: string) {
+  const data = await fetchAPI(
+    `
+    query PageBySlug($id: ID!, $idType: PageIdType!) {
+      page(id: $id, idType: $idType) {
+        title
+        content
+        slug
+        featuredImage {
+          node {
+            sourceUrl
+            altText
+          }
+        }
+      }
+    }
+  `,
+    {
+      variables: {
+        id: slug,
+        idType: 'URI',
+      },
+    }
+  );
+  return data?.page;
+}
+
 export async function getPostsByCategory(categorySlug: string) {
   const data = await fetchAPI(
     `
