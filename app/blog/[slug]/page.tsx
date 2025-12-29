@@ -1,4 +1,5 @@
 import { getPostBySlug, getPostsByCategory } from '@/lib/wordpressApi';
+import Link from 'next/link';
 import PostCard from '@/components/PostCard';
 import Sidebar from '@/components/Sidebar';
 import { Metadata } from 'next';
@@ -106,6 +107,22 @@ export default async function PostPage({ params }: PostPageProps) {
 								dangerouslySetInnerHTML={{ __html: post.content }}
 							/>
 						</div>
+
+						{/* Tags Section */}
+						{post.tags?.nodes && post.tags.nodes.length > 0 && (
+							<div className="flex flex-wrap gap-2 pt-8">
+								<span className="text-xs font-bold uppercase tracking-wider text-muted-foreground mr-2 flex items-center">
+									Tags:
+								</span>
+								{post.tags.nodes.map((tag: any) => (
+									<Link key={tag.slug} href={`/tag/${tag.slug}`}>
+										<Badge variant="secondary" className="hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer">
+											#{tag.name}
+										</Badge>
+									</Link>
+								))}
+							</div>
+						)}
 
 						<Separator className="my-16" />
 

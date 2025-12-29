@@ -100,6 +100,12 @@ export async function getPostBySlug(slug: string) {
             slug
           }
         }
+        tags {
+          nodes {
+            name
+            slug
+          }
+        }
       }
     }
   `,
