@@ -84,6 +84,12 @@ export async function getPostBySlug(slug: string) {
             }
           }
         }
+        categories {
+          nodes {
+            name
+            slug
+          }
+        }
       }
     }
   `,

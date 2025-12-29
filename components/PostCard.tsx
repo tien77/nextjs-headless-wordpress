@@ -1,5 +1,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { ArrowRight, Calendar, User } from 'lucide-react';
 
 interface PostCardProps {
 	post: {
@@ -35,55 +39,60 @@ export default function PostCard({ post }: PostCardProps) {
 	});
 
 	return (
-		<article className="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white transition-all hover:-translate-y-1 hover:shadow-xl">
+		<Card className="group flex flex-col overflow-hidden border-none shadow-md transition-all hover:shadow-xl dark:bg-zinc-900/50">
 			<Link href={`/blog/${post.slug}`} className="relative block aspect-[16/9] overflow-hidden">
 				{post.featuredImage ? (
-					<img
+					<Image
 						src={post.featuredImage.node.sourceUrl}
 						alt={post.featuredImage.node.altText || post.title}
-						className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+						fill
+						className="object-cover transition-transform duration-500 group-hover:scale-105"
 					/>
 				) : (
-					<div className="flex h-full w-full items-center justify-center bg-gray-100 text-gray-400">
+					<div className="flex h-full w-full items-center justify-center bg-muted text-muted-foreground">
 						No Image
 					</div>
 				)}
 				{post.categories?.nodes && post.categories.nodes.length > 0 && (
-					<div className="absolute left-4 top-4">
-						<Link
-							href={`/category/${post.categories.nodes[0].slug}`}
-							className="rounded-full bg-white/90 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-blue-600 backdrop-blur-sm hover:bg-blue-600 hover:text-white transition-colors"
-						>
+					<div className="absolute left-4 top-4 z-10">
+						<Badge variant="secondary" className="bg-white/90 text-zinc-900 backdrop-blur-sm hover:bg-white">
 							{post.categories.nodes[0].name}
-						</Link>
+						</Badge>
 					</div>
 				)}
 			</Link>
-			<div className="flex flex-1 flex-col p-6">
-				<div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-blue-600">
-					<span>{formattedDate}</span>
-					<span className="h-1 w-1 rounded-full bg-gray-300" />
-					<span>{post.author?.node?.name || 'Author'}</span>
+
+			<CardHeader className="space-y-2 p-6 pb-0">
+				<div className="flex items-center gap-4 text-xs text-muted-foreground">
+					<div className="flex items-center gap-1">
+						<Calendar className="h-3 w-3" />
+						<span>{formattedDate}</span>
+					</div>
+					<div className="flex items-center gap-1">
+						<User className="h-3 w-3" />
+						<span>{post.author?.node?.name || 'Author'}</span>
+					</div>
 				</div>
-				<h3 className="mb-3 text-xl font-bold leading-tight text-gray-900 group-hover:text-blue-600">
+				<CardTitle className="line-clamp-2 text-xl font-bold leading-tight group-hover:text-primary transition-colors">
 					<Link href={`/blog/${post.slug}`}>{post.title}</Link>
-				</h3>
+				</CardTitle>
+			</CardHeader>
+
+			<CardContent className="flex-1 p-6 pt-3">
 				<div
-					className="mb-6 line-clamp-3 text-sm leading-relaxed text-gray-500"
+					className="line-clamp-3 text-sm leading-relaxed text-muted-foreground"
 					dangerouslySetInnerHTML={{ __html: post.excerpt }}
 				/>
-				<div className="mt-auto">
-					<Link
-						href={`/blog/${post.slug}`}
-						className="inline-flex items-center gap-1 text-sm font-bold text-gray-900 hover:text-blue-600"
-					>
+			</CardContent>
+
+			<CardFooter className="p-6 pt-0">
+				<Button asChild variant="ghost" className="px-0 font-bold hover:bg-transparent hover:text-primary group/btn">
+					<Link href={`/blog/${post.slug}`} className="flex items-center gap-2">
 						Read Story
-						<svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-						</svg>
+						<ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
 					</Link>
-				</div>
-			</div>
-		</article>
+				</Button>
+			</CardFooter>
+		</Card>
 	);
 }

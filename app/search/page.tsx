@@ -1,6 +1,10 @@
 import { getPostsBySearch } from '@/lib/wordpressApi';
 import PostCard from '@/components/PostCard';
 import { Metadata } from 'next';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Search } from 'lucide-react';
 
 interface SearchPageProps {
 	searchParams: Promise<{
@@ -12,8 +16,8 @@ export async function generateMetadata({ searchParams }: SearchPageProps): Promi
 	const { q } = await searchParams;
 	const query = q || '';
 	return {
-		title: query ? `Search results for "${query}" | Minimal Blog` : 'Search | Minimal Blog',
-		description: `Search results for ${query} on Minimal Blog.`,
+		title: query ? `Search results for "${query}" | The Journal` : 'Search | The Journal',
+		description: `Search results for ${query} on The Journal.`,
 	};
 }
 
@@ -23,42 +27,45 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 	const posts = query ? await getPostsBySearch(query) : [];
 
 	return (
-		<div className="container mx-auto px-4 py-12 sm:px-6 lg:py-20">
-			<div className="mb-12 text-center">
-				<span className="text-xs font-bold uppercase tracking-widest text-blue-600">Search Results</span>
-				<h1 className="mt-2 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
-					{query ? `"${query}"` : 'Search our blog'}
+		<div className="container mx-auto px-4 py-12 sm:px-6 lg:py-16 max-w-7xl">
+			<div className="mb-12 text-center space-y-4">
+				<Badge variant="secondary" className="px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] bg-primary/10 text-primary border-none">
+					Search Results
+				</Badge>
+				<h1 className="text-4xl font-black tracking-tight text-zinc-900 sm:text-5xl dark:text-white">
+					{query ? `"${query}"` : 'Search our stories'}
 				</h1>
-				<p className="mx-auto mt-4 max-w-2xl text-lg text-gray-500">
-					Showing {posts?.length || 0} results for your search.
+				<p className="mx-auto max-w-2xl text-lg text-muted-foreground font-medium">
+					Showing {posts?.length || 0} stories matching your query.
 				</p>
 			</div>
 
-			<div className="mx-auto mb-16 max-w-xl">
+			<div className="mx-auto mb-20 max-w-2xl">
 				<form action="/search" method="GET" className="relative">
-					<input
+					<Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+					<Input
 						type="text"
 						name="q"
 						defaultValue={query}
 						placeholder="Search for articles..."
-						className="w-full rounded-full border border-gray-200 bg-gray-50 px-6 py-4 text-gray-900 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-100 transition-all"
+						className="h-14 w-full rounded-full border-none bg-muted/60 pl-12 pr-32 text-lg focus-visible:ring-primary shadow-sm"
 					/>
-					<button
+					<Button
 						type="submit"
-						className="absolute right-2 top-2 rounded-full bg-blue-600 px-6 py-2 text-sm font-bold text-white hover:bg-blue-700 transition-colors"
+						className="absolute right-2 top-2 h-10 rounded-full px-8 font-black uppercase tracking-wider shadow-md active:scale-95"
 					>
 						Search
-					</button>
+					</Button>
 				</form>
 			</div>
 
 			{!posts || posts.length === 0 ? (
-				<div className="flex min-h-[300px] flex-col items-center justify-center rounded-3xl border-2 border-dashed border-gray-100 bg-gray-50 p-12 text-center">
-					<h2 className="text-xl font-bold text-gray-900">No results found</h2>
-					<p className="mt-2 text-gray-500">Try searching with different keywords.</p>
+				<div className="flex min-h-[400px] flex-col items-center justify-center rounded-3xl border-2 border-dashed border-muted bg-muted/10 p-12 text-center text-muted-foreground">
+					<h3 className="text-xl font-bold text-zinc-900 dark:text-white">No results found</h3>
+					<p className="mt-2 font-medium">Try searching with different keywords or topics.</p>
 				</div>
 			) : (
-				<div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+				<div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
 					{posts.map((post: any) => (
 						<PostCard key={post.slug} post={post} />
 					))}

@@ -1,90 +1,114 @@
 import Link from 'next/link';
 import { getAllCategories, getAllTags } from '@/lib/wordpressApi';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Search, Hash, FolderOpen, Mail } from 'lucide-react';
 
 export default async function Sidebar() {
 	const categories = await getAllCategories();
 	const tags = await getAllTags();
 
 	return (
-		<aside className="space-y-12">
-			{/* Search Widget - for mobile or as additional search */}
-			<div className="rounded-2xl border border-gray-100 bg-gray-50 p-6 sm:hidden">
-				<h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-gray-900">Search</h3>
-				<form action="/search" method="GET" className="relative">
-					<input
-						type="text"
-						name="q"
-						placeholder="Search..."
-						className="w-full rounded-full border border-gray-200 bg-white px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100 transition-all"
-					/>
-				</form>
-			</div>
+		<aside className="space-y-8">
+			{/* Search Widget */}
+			<Card className="border-none shadow-sm dark:bg-zinc-900/40">
+				<CardHeader className="pb-4">
+					<CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+						<Search className="h-4 w-4 text-primary" />
+						Search
+					</CardTitle>
+				</CardHeader>
+				<CardContent>
+					<form action="/search" method="GET" className="relative">
+						<Input
+							type="text"
+							name="q"
+							placeholder="Search stories..."
+							className="rounded-full bg-muted/50 border-none focus-visible:ring-primary"
+						/>
+					</form>
+				</CardContent>
+			</Card>
 
 			{/* Categories Section */}
-			<div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-				<h3 className="mb-6 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-gray-900">
-					<span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
-					Categories
-				</h3>
-				<ul className="space-y-3">
-					{categories?.map((category: any) => (
-						<li key={category.slug}>
+			<Card className="border-none shadow-sm dark:bg-zinc-900/40">
+				<CardHeader className="pb-4">
+					<CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+						<FolderOpen className="h-4 w-4 text-primary" />
+						Categories
+					</CardTitle>
+				</CardHeader>
+				<CardContent>
+					<div className="grid gap-2">
+						{categories?.map((category: any) => (
 							<Link
+								key={category.slug}
 								href={`/category/${category.slug}`}
-								className="flex items-center justify-between text-sm text-gray-600 transition-all hover:translate-x-1 hover:text-blue-600"
+								className="group flex items-center justify-between py-1 text-sm text-muted-foreground transition-colors hover:text-primary"
 							>
 								<span>{category.name}</span>
-								<span className="rounded-full bg-gray-50 px-2 py-0.5 text-[10px] font-bold text-gray-400 group-hover:bg-blue-50 group-hover:text-blue-600">
+								<Badge variant="secondary" className="h-5 rounded-full px-1.5 text-[10px] font-bold opacity-70 group-hover:opacity-100 transition-opacity">
 									{category.count}
-								</span>
+								</Badge>
 							</Link>
-						</li>
-					))}
-					{!categories || categories.length === 0 && (
-						<li className="text-sm text-gray-400">No categories found.</li>
-					)}
-				</ul>
-			</div>
+						))}
+						{(!categories || categories.length === 0) && (
+							<p className="text-sm text-muted-foreground italic">No categories found.</p>
+						)}
+					</div>
+				</CardContent>
+			</Card>
 
 			{/* Tags Section */}
-			<div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-				<h3 className="mb-6 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-gray-900">
-					<span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
-					Popular Tags
-				</h3>
-				<div className="flex flex-wrap gap-2">
-					{tags?.map((tag: any) => (
-						<Link
-							key={tag.slug}
-							href={`/tag/${tag.slug}`}
-							className="rounded-lg border border-gray-100 bg-gray-50 px-3 py-1.5 text-xs font-medium text-gray-600 transition-all hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
-						>
-							#{tag.name}
-						</Link>
-					))}
-					{!tags || tags.length === 0 && (
-						<span className="text-sm text-gray-400">No tags found.</span>
-					)}
-				</div>
-			</div>
+			<Card className="border-none shadow-sm dark:bg-zinc-900/40">
+				<CardHeader className="pb-4">
+					<CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+						<Hash className="h-4 w-4 text-primary" />
+						Popular Tags
+					</CardTitle>
+				</CardHeader>
+				<CardContent>
+					<div className="flex flex-wrap gap-2">
+						{tags?.map((tag: any) => (
+							<Link key={tag.slug} href={`/tag/${tag.slug}`}>
+								<Badge variant="outline" className="rounded-md font-medium hover:bg-primary hover:text-primary-foreground transition-colors">
+									#{tag.name}
+								</Badge>
+							</Link>
+						))}
+						{(!tags || tags.length === 0) && (
+							<p className="text-sm text-muted-foreground italic">No tags found.</p>
+						)}
+					</div>
+				</CardContent>
+			</Card>
 
 			{/* Newsletter Widget */}
-			<div className="rounded-2xl bg-gray-900 p-8 text-center text-white">
-				<h3 className="text-lg font-bold">Stay Updated</h3>
-				<p className="mt-2 text-sm text-gray-400">
-					Get the latest posts delivered right to your inbox.
-				</p>
-				<form className="mt-6 space-y-3">
-					<input
-						type="email"
-						placeholder="Email Address"
-						className="w-full rounded-xl bg-white/10 px-4 py-2.5 text-sm text-white focus:bg-white/20 focus:outline-none"
-					/>
-					<button className="w-full rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-bold transition-all hover:bg-blue-700 active:scale-95">
-						Join the Club
-					</button>
-				</form>
-			</div>
+			<Card className="bg-zinc-950 text-white border-none shadow-lg overflow-hidden relative">
+				<div className="absolute top-0 right-0 p-4 opacity-10">
+					<Mail className="h-24 w-24 -rotate-12 translate-x-8 translate-y-2 text-white" />
+				</div>
+				<CardHeader>
+					<CardTitle className="text-xl font-bold">Stay Updated</CardTitle>
+					<p className="text-sm text-zinc-400">
+						Get the best stories delivered directly to your inbox.
+					</p>
+				</CardHeader>
+				<CardContent>
+					<form className="space-y-4 relative z-10">
+						<Input
+							type="email"
+							placeholder="Email Address"
+							className="bg-white/10 border-white/5 placeholder:text-zinc-500 text-white focus-visible:ring-zinc-700"
+						/>
+						<Button className="w-full bg-white text-zinc-950 hover:bg-zinc-200 font-bold transition-all active:scale-95">
+							Join the newsletter
+						</Button>
+					</form>
+				</CardContent>
+			</Card>
 		</aside>
 	);
 }

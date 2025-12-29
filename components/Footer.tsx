@@ -1,35 +1,57 @@
+import { Separator } from '@/components/ui/separator';
+import { Github, Twitter } from 'lucide-react';
+
 export default function Footer() {
 	return (
-		<footer className="border-t border-gray-100 bg-gray-50 py-12">
-			<div className="container mx-auto px-4 sm:px-6">
-				<div className="grid gap-8 md:grid-cols-4">
-					<div className="md:col-span-2">
-						<h2 className="text-xl font-bold tracking-tighter text-gray-900">
-							MINIMAL<span className="text-blue-600">BLOG</span>
-						</h2>
-						<p className="mt-4 max-w-xs text-sm text-gray-500 leading-relaxed">
-							A minimalist blog built with Next.js and Headless WordPress. Focusing on content and readability.
+		<footer className="border-t bg-zinc-50 dark:bg-zinc-900/30 py-16">
+			<div className="container mx-auto px-4 sm:px-6 max-w-7xl">
+				<div className="grid gap-12 md:grid-cols-4 lg:grid-cols-5">
+					<div className="md:col-span-2 lg:col-span-2">
+						<span className="text-xl font-black tracking-tighter uppercase italic">
+							The <span className="text-primary">Journal</span>
+						</span>
+						<p className="mt-4 max-w-xs text-sm text-muted-foreground leading-relaxed font-medium">
+							Carefully curated stories at the intersection of technology, design, and modern culture. Built for the curious mind.
 						</p>
+						<div className="flex items-center gap-4 mt-6">
+							<a href="#" className="p-2 rounded-full bg-background border border-zinc-200 dark:border-zinc-800 hover:border-primary hover:text-primary transition-all">
+								<Twitter className="h-4 w-4" />
+							</a>
+							<a href="#" className="p-2 rounded-full bg-background border border-zinc-200 dark:border-zinc-800 hover:border-primary hover:text-primary transition-all">
+								<Github className="h-4 w-4" />
+							</a>
+						</div>
 					</div>
 					<div>
-						<h3 className="text-sm font-bold uppercase tracking-wider text-gray-900">Platform</h3>
-						<ul className="mt-4 space-y-2 text-sm text-gray-500">
-							<li><a href="#" className="hover:text-blue-600">Features</a></li>
-							<li><a href="#" className="hover:text-blue-600">Integrations</a></li>
-							<li><a href="#" className="hover:text-blue-600">Pricing</a></li>
+						<h3 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-900 dark:text-white">The Blog</h3>
+						<ul className="mt-6 space-y-3 text-sm text-muted-foreground">
+							<li><a href="/" className="hover:text-primary transition-colors font-medium">Latest Stories</a></li>
+							<li><a href="#" className="hover:text-primary transition-colors font-medium">Popular Posts</a></li>
+							<li><a href="#" className="hover:text-primary transition-colors font-medium">Editorial</a></li>
 						</ul>
 					</div>
 					<div>
-						<h3 className="text-sm font-bold uppercase tracking-wider text-gray-900">Support</h3>
-						<ul className="mt-4 space-y-2 text-sm text-gray-500">
-							<li><a href="#" className="hover:text-blue-600">Documentation</a></li>
-							<li><a href="#" className="hover:text-blue-600">Guides</a></li>
-							<li><a href="#" className="hover:text-blue-600">API Status</a></li>
+						<h3 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-900 dark:text-white">Categories</h3>
+						<ul className="mt-6 space-y-3 text-sm text-muted-foreground">
+							<li><a href="/category/technology" className="hover:text-primary transition-colors font-medium">Technology</a></li>
+							<li><a href="/category/lifestyle" className="hover:text-primary transition-colors font-medium">Lifestyle</a></li>
+							<li><a href="/category/design" className="hover:text-primary transition-colors font-medium">Design</a></li>
+						</ul>
+					</div>
+					<div>
+						<h3 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-900 dark:text-white">Legal</h3>
+						<ul className="mt-6 space-y-3 text-sm text-muted-foreground">
+							<li><a href="#" className="hover:text-primary transition-colors font-medium">Privacy Policy</a></li>
+							<li><a href="#" className="hover:text-primary transition-colors font-medium">Terms</a></li>
 						</ul>
 					</div>
 				</div>
-				<div className="mt-12 border-t border-gray-200 pt-8 text-center text-sm text-gray-400">
-					<p>© {new Date().getFullYear()} Minimal Blog. All rights reserved.</p>
+
+				<Separator className="mt-16 mb-8 opacity-50" />
+
+				<div className="flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+					<p>© {new Date().getFullYear()} The Journal. All rights reserved.</p>
+					<p>Designed for humans.</p>
 				</div>
 			</div>
 		</footer>
