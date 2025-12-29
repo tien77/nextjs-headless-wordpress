@@ -14,7 +14,7 @@ async function fetchAPI(query: string, { variables }: { variables?: any } = {}) 
       query,
       variables,
     }),
-    next: { revalidate: 60 }, // Cache for 60 seconds
+    // next: { revalidate: 60 }, // Cache for 60 seconds
   });
 
   const json = await res.json();
@@ -25,11 +25,15 @@ async function fetchAPI(query: string, { variables }: { variables?: any } = {}) 
   return json.data;
 }
 
-export async function getAllPosts() {
+export async function getAllPosts(first = 10, after?: string) {
   const data = await fetchAPI(
     `
-    query AllPosts {
-      posts(first: 20, where: { orderby: { field: DATE, order: DESC } }) {
+    query AllPosts($first: Int, $after: String) {
+      posts(first: $first, after: $after, where: { orderby: { field: DATE, order: DESC } }) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
         nodes {
           title
           excerpt
@@ -55,9 +59,15 @@ export async function getAllPosts() {
         }
       }
     }
-  `
+  `,
+    {
+      variables: {
+        first,
+        after,
+      },
+    }
   );
-  return data?.posts?.nodes;
+  return data?.posts;
 }
 
 export async function getPostBySlug(slug: string) {

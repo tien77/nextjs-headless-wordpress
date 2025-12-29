@@ -1,12 +1,14 @@
 import { getAllPosts } from '@/lib/wordpressApi';
-import PostCard from '@/components/PostCard';
 import Sidebar from '@/components/Sidebar';
+import InfinitePostList from '@/components/InfinitePostList';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { FileText, Sparkles } from 'lucide-react';
 
 export default async function Home() {
-  const posts = await getAllPosts();
+  const postsData = await getAllPosts(10);
+  const posts = postsData?.nodes || [];
+  const pageInfo = postsData?.pageInfo || { hasNextPage: false, endCursor: '' };
 
   return (
     <div className="container mx-auto px-4 py-12 sm:px-6 lg:py-16 max-w-7xl">
@@ -36,7 +38,7 @@ export default async function Home() {
           </div>
           <Separator className="mb-10 opacity-50" />
 
-          {!posts || posts.length === 0 ? (
+          {posts.length === 0 ? (
             <div className="flex min-h-[400px] flex-col items-center justify-center rounded-3xl border-2 border-dashed border-muted bg-muted/20 p-12 text-center">
               <div className="mb-4 rounded-full bg-muted p-4 text-muted-foreground">
                 <FileText className="h-10 w-10" />
@@ -47,11 +49,7 @@ export default async function Home() {
               </p>
             </div>
           ) : (
-            <div className="grid gap-12 sm:grid-cols-2">
-              {posts.map((post: any) => (
-                <PostCard key={post.slug} post={post} />
-              ))}
-            </div>
+            <InfinitePostList initialPosts={posts} initialPageInfo={pageInfo} />
           )}
         </main>
 

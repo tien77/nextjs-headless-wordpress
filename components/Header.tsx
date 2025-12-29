@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, Menu } from 'lucide-react';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 export default function Header() {
 	return (
@@ -26,7 +27,7 @@ export default function Header() {
 					</nav>
 				</div>
 
-				<div className="flex items-center gap-4">
+				<div className="flex items-center gap-2 sm:gap-4">
 					<form action="/search" method="GET" className="hidden sm:block relative">
 						<Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
 						<Input
@@ -36,7 +37,8 @@ export default function Header() {
 							className="h-9 w-40 rounded-full bg-muted/60 border-none pl-9 focus-visible:ring-primary lg:w-64"
 						/>
 					</form>
-					<Button className="rounded-full px-6 font-bold shadow-sm shadow-primary/10 transition-all hover:shadow-md active:scale-95">
+					<ThemeToggle />
+					<Button className="hidden xs:flex rounded-full px-6 font-bold shadow-sm shadow-primary/10 transition-all hover:shadow-md active:scale-95">
 						Join
 					</Button>
 					<Button variant="ghost" size="icon" className="md:hidden">
