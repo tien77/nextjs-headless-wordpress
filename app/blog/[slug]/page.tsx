@@ -9,6 +9,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Calendar, User } from 'lucide-react';
+import { CommentSection } from '@/components/CommentSection';
 
 interface PostPageProps {
 	params: Promise<{
@@ -148,6 +149,9 @@ export default async function PostPage({ params }: PostPageProps) {
 								</div>
 							</div>
 						</Card>
+
+						{/* Comment Section */}
+						<CommentSection postId={post.databaseId} />
 					</article>
 
 					{/* Related Posts Section */}

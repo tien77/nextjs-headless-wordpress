@@ -86,6 +86,7 @@ export async function getPostBySlug(slug: string) {
         excerpt
         content
         slug
+        databaseId
         date
         featuredImage {
           node {
