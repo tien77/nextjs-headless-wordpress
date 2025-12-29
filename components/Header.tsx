@@ -3,8 +3,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, Menu } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { auth } from '@/lib/auth';
+import { UserMenu } from '@/components/auth/UserMenu';
 
-export default function Header() {
+export default async function Header() {
+	const session = await auth();
+
 	return (
 		<header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
 			<div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 max-w-7xl">
@@ -35,14 +39,25 @@ export default function Header() {
 						/>
 					</form>
 					<ThemeToggle />
-					<Button className="hidden xs:flex rounded-full px-6 font-bold shadow-sm shadow-primary/10 transition-all hover:shadow-md active:scale-95">
-						Join
-					</Button>
+
+					{session?.user ? (
+						<UserMenu user={session.user} />
+					) : (
+						<div className="flex items-center gap-2">
+							<Button variant="ghost" asChild className="rounded-full font-bold">
+								<Link href="/login">Sign In</Link>
+							</Button>
+							<Button asChild className="hidden sm:flex rounded-full px-6 font-bold shadow-sm shadow-primary/10 transition-all hover:shadow-md active:scale-95">
+								<Link href="/register">Join</Link>
+							</Button>
+						</div>
+					)}
+
 					<Button variant="ghost" size="icon" className="md:hidden">
 						<Menu className="h-5 w-5" />
 					</Button>
-				</div>
-			</div>
-		</header>
+				</div >
+			</div >
+		</header >
 	);
 }

@@ -18,9 +18,16 @@ async function fetchAPI(query: string, { variables }: { variables?: any } = {}) 
   });
 
   const json = await res.json();
+  /*
+   * GraphQL responses can contain both data and errors.
+   * If data is present, we return it but log errors.
+   * If strictly no data and only errors, we throw.
+   */
   if (json.errors) {
-    console.error(json.errors);
-    throw new Error('Failed to fetch API');
+    console.error('WPGraphQL Errors:', json.errors);
+    if (!json.data) {
+      throw new Error('Failed to fetch API: ' + json.errors[0]?.message || 'Unknown error');
+    }
   }
   return json.data;
 }
@@ -288,4 +295,69 @@ export async function getAllTags() {
     `
   );
   return data?.tags?.nodes;
+}
+
+export async function loginUser(credentials: any) {
+  const data = await fetchAPI(
+    `
+    mutation Login($input: LoginInput!) {
+      login(input: $input) {
+        authToken
+        refreshToken
+        user {
+          id
+          name
+          email
+          avatar {
+            url
+          }
+        }
+      }
+    }
+  `,
+    {
+      variables: {
+        input: {
+          clientMutationId: 'uniqueId',
+          username: credentials.username,
+          password: credentials.password,
+        },
+      },
+    }
+  );
+  return data?.login;
+}
+
+export async function getViewer(authToken: string) {
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${authToken}`
+  };
+
+  if (!process.env.WORDPRESS_API_URL) {
+    throw new Error('WORDPRESS_API_URL is not defined');
+  }
+
+  const res = await fetch(process.env.WORDPRESS_API_URL, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      query: `
+        query Viewer {
+          viewer {
+            id
+            name
+            email
+            avatar {
+              url
+            }
+          }
+        }
+      `,
+    }),
+    next: { revalidate: 0 },
+  });
+
+  const json = await res.json();
+  return json?.data?.viewer;
 }
