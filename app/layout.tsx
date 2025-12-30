@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import NextTopLoader from 'nextjs-toploader';
 
 export const metadata: Metadata = {
@@ -37,6 +38,7 @@ export default function RootLayout({
           />
           <Header />
           <main className="min-h-screen">
+            <Breadcrumbs />
             {children}
           </main>
           <Footer />
