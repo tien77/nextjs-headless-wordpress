@@ -5,6 +5,7 @@ import { Search, Menu } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { auth } from '@/lib/auth';
 import { UserMenu } from '@/components/auth/UserMenu';
+import MobileMenu from '@/components/MobileMenu';
 
 export default async function Header() {
 	const session = await auth();
@@ -56,9 +57,7 @@ export default async function Header() {
 						</div>
 					)}
 
-					<Button variant="ghost" size="icon" className="md:hidden">
-						<Menu className="h-5 w-5" />
-					</Button>
+					<MobileMenu session={session} />
 				</div >
 			</div >
 		</header >
