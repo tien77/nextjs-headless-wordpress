@@ -12,7 +12,7 @@ export default function NotFound() {
             <div className="max-w-2xl w-full text-center space-y-12 relative z-10">
                 {/* Large 404 text with gradient */}
                 <div className="space-y-2">
-                    <h1 className="text-[12rem] sm:text-[18rem] font-black leading-none tracking-tighter italic select-none">
+                    <h1 className="text-8xl sm:text-[10rem] font-black leading-none tracking-tighter italic select-none">
                         <span className="bg-clip-text text-transparent bg-gradient-to-b from-zinc-900 to-zinc-400 dark:from-white dark:to-zinc-800">
                             404
                         </span>

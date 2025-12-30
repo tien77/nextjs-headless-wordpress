@@ -73,7 +73,7 @@ export default async function PostPage({ params }: PostPageProps) {
 								</Badge>
 							)}
 
-							<h1 className="text-4xl font-black tracking-tight text-zinc-900 sm:text-5xl lg:text-7xl dark:text-white leading-tight">
+							<h1 className="text-3xl font-black tracking-tight text-zinc-900 sm:text-4xl lg:text-5xl dark:text-white leading-tight">
 								{post.title}
 							</h1>
 

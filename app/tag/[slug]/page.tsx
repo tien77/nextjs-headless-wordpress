@@ -45,7 +45,7 @@ export default async function TagPage({ params }: TagPageProps) {
 				<Badge variant="secondary" className="px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] bg-primary/10 text-primary border-none">
 					Tag Archive
 				</Badge>
-				<h1 className="text-5xl font-black tracking-tight text-zinc-900 sm:text-6xl dark:text-white leading-tight">
+				<h1 className="text-3xl font-black tracking-tight text-zinc-900 sm:text-4xl dark:text-white leading-tight">
 					#{tag.name}
 				</h1>
 				{tag.description && (

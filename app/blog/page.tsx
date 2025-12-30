@@ -24,7 +24,7 @@ export default async function BlogPage() {
                     <BookOpen className="mr-2 h-3 w-3" />
                     The Archive
                 </Badge>
-                <h1 className="text-5xl font-black tracking-tight text-zinc-900 sm:text-6xl md:text-7xl dark:text-white leading-[1.1]">
+                <h1 className="text-3xl font-black tracking-tight text-zinc-900 sm:text-4xl md:text-5xl dark:text-white leading-[1.1]">
                     Our <span className="text-primary italic">Blog</span>
                 </h1>
                 <p className="mx-auto max-w-2xl text-lg text-muted-foreground leading-relaxed font-medium">
