@@ -151,7 +151,7 @@ export default async function PostPage({ params }: PostPageProps) {
 						</Card>
 
 						{/* Comment Section */}
-						<CommentSection postId={post.databaseId} />
+						<CommentSection postId={post.databaseId} initialComments={post.comments?.nodes} />
 					</article>
 
 					{/* Related Posts Section */}

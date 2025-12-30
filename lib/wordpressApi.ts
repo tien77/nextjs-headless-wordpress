@@ -114,6 +114,22 @@ export async function getPostBySlug(slug: string) {
             slug
           }
         }
+        comments(first: 100) {
+          nodes {
+            id
+            content
+            date
+            parentId
+            author {
+              node {
+                name
+                avatar {
+                  url
+                }
+              }
+            }
+          }
+        }
       }
     }
   `,
@@ -388,4 +404,43 @@ export async function registerUser(input: any) {
     }
   );
   return data?.registerUser;
+}
+
+export async function createComment(input: any) {
+  const data = await fetchAPI(
+    `
+    mutation CreateComment($input: CreateCommentInput!) {
+      createComment(input: $input) {
+        success
+        comment {
+          id
+          content
+          date
+          parentId
+          author {
+            node {
+              name
+              avatar {
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+  `,
+    {
+      variables: {
+        input: {
+          clientMutationId: 'createComment',
+          commentOn: input.postId,
+          parent: input.parentId ? input.parentId : null,
+          author: input.author,
+          authorEmail: input.authorEmail,
+          content: input.content,
+        },
+      },
+    }
+  );
+  return data?.createComment;
 }
