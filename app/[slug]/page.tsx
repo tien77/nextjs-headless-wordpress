@@ -9,6 +9,8 @@ interface PageProps {
     }>;
 }
 
+import { generateMetadataFromSeo } from '@/lib/seo';
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     const { slug } = await params;
     const page = await getPageBySlug(slug);
@@ -19,9 +21,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         };
     }
 
-    return {
-        title: `${page.title} | Minimal Blog`,
-    };
+    return generateMetadataFromSeo(page.seo);
 }
 
 export default async function StaticPage({ params }: PageProps) {

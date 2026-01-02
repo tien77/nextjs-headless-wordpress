@@ -1,3 +1,5 @@
+import { SEO_FRAGMENT } from './seo';
+
 if (process.env.NODE_ENV === 'development') {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 }
@@ -143,6 +145,7 @@ export async function getPostBySlug(slug: string) {
             }
           }
         }
+        ${SEO_FRAGMENT}
       }
     }
   `,
@@ -170,6 +173,7 @@ export async function getPageBySlug(slug: string) {
             altText
           }
         }
+        ${SEO_FRAGMENT}
       }
     }
   `,
@@ -195,6 +199,7 @@ export async function getPostsByCategory(categorySlug: string, first?: number, a
       category(id: $id, idType: SLUG) {
         name
         description
+        ${SEO_FRAGMENT}
         posts(first: $first, after: $after, last: $last, before: $before, where: { orderby: { field: DATE, order: DESC } }) {
           pageInfo {
             hasNextPage
@@ -243,6 +248,7 @@ export async function getPostsByTag(tagSlug: string) {
       tag(id: $id, idType: SLUG) {
         name
         description
+        ${SEO_FRAGMENT}
         posts(first: 20, where: { orderby: { field: DATE, order: DESC } }) {
           nodes {
             title

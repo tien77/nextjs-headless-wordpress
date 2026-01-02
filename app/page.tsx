@@ -1,10 +1,25 @@
-import { getAllPosts } from '@/lib/wordpressApi';
+import { getAllPosts, getPageBySlug } from '@/lib/wordpressApi';
 import Sidebar from '@/components/Sidebar';
 import PostCard from '@/components/PostCard';
 import PaginationControls from '@/components/PaginationControls';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { FileText, Sparkles } from 'lucide-react';
+import { Metadata } from 'next';
+import { generateMetadataFromSeo } from '@/lib/seo';
+
+export async function generateMetadata(): Promise<Metadata> {
+  // Try to fetch a page with slug 'home' for SEO data
+  const page = await getPageBySlug('home');
+  if (page?.seo) {
+    return generateMetadataFromSeo(page.seo);
+  }
+  // Fallback to default metadata defined in layout or here
+  return {
+    title: 'Minimalist Blog | Headless WordPress & Next.js',
+    description: 'A high-performance minimalist blog built with Next.js 14 and Headless WordPress.',
+  };
+}
 
 export default async function Home(props: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

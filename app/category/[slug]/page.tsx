@@ -15,6 +15,8 @@ interface CategoryPageProps {
 	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
+import { generateMetadataFromSeo } from '@/lib/seo';
+
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
 	const { slug } = await params;
 	// Metadata usually doesn't need deep pagination content, so we just invoke with defaults
@@ -26,10 +28,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 		};
 	}
 
-	return {
-		title: `Posts in ${category.name} | The Journal`,
-		description: category.description || `Browse all posts in the ${category.name} category.`,
-	};
+	return generateMetadataFromSeo(category.seo);
 }
 
 export default async function CategoryPage(props: CategoryPageProps) {

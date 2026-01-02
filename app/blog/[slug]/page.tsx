@@ -17,6 +17,8 @@ interface PostPageProps {
 	}>;
 }
 
+import { generateMetadataFromSeo } from '@/lib/seo';
+
 export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
 	const { slug } = await params;
 	const post = await getPostBySlug(slug);
@@ -27,15 +29,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
 		};
 	}
 
-	return {
-		title: `${post.title} | Minimal Blog`,
-		description: post.excerpt?.replace(/<[^>]*>?/gm, '').substring(0, 160),
-		openGraph: {
-			title: post.title,
-			description: post.excerpt?.replace(/<[^>]*>?/gm, '').substring(0, 160),
-			images: post.featuredImage ? [post.featuredImage.node.sourceUrl] : [],
-		},
-	};
+	return generateMetadataFromSeo(post.seo);
 }
 
 export default async function PostPage({ params }: PostPageProps) {

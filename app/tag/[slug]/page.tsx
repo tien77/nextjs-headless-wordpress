@@ -13,6 +13,8 @@ interface TagPageProps {
 	}>;
 }
 
+import { generateMetadataFromSeo } from '@/lib/seo';
+
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
 	const { slug } = await params;
 	const tag = await getPostsByTag(slug);
@@ -23,10 +25,7 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
 		};
 	}
 
-	return {
-		title: `Posts tagged with ${tag.name} | The Journal`,
-		description: tag.description || `Browse all posts tagged with ${tag.name}.`,
-	};
+	return generateMetadataFromSeo(tag.seo);
 }
 
 export default async function TagPage({ params }: TagPageProps) {
