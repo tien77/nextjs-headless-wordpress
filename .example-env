@@ -1,1 +1,4 @@
 WORDPRESS_API_URL=http://wordpress.test/graphql
+AUTH_SECRET="XJHQ/lR7b8VEKTrjWp50VVpONvoCrSMblLneWZIyx6M="
+AUTH_TRUST_HOST=true
+AUTH_URL=http://localhost:3000
