@@ -1,6 +1,7 @@
 import { getPostsByCategory } from '@/lib/wordpressApi';
 import PostCard from '@/components/PostCard';
 import Sidebar from '@/components/Sidebar';
+import PaginationControls from '@/components/PaginationControls';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
@@ -11,10 +12,12 @@ interface CategoryPageProps {
 	params: Promise<{
 		slug: string;
 	}>;
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
 	const { slug } = await params;
+	// Metadata usually doesn't need deep pagination content, so we just invoke with defaults
 	const category = await getPostsByCategory(slug);
 
 	if (!category) {
@@ -29,15 +32,33 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 	};
 }
 
-export default async function CategoryPage({ params }: CategoryPageProps) {
-	const { slug } = await params;
-	const category = await getPostsByCategory(slug);
+export default async function CategoryPage(props: CategoryPageProps) {
+	const { slug } = await props.params;
+	const searchParams = await props.searchParams;
+
+	const after = typeof searchParams.after === 'string' ? searchParams.after : undefined;
+	const before = typeof searchParams.before === 'string' ? searchParams.before : undefined;
+	const page = typeof searchParams.page === 'string' ? parseInt(searchParams.page) : 1;
+
+	// Fetch logic: 10 per page
+	let category;
+	if (before) {
+		category = await getPostsByCategory(slug, undefined, undefined, 10, before);
+	} else {
+		category = await getPostsByCategory(slug, 10, after);
+	}
 
 	if (!category) {
 		notFound();
 	}
 
-	const posts = category.posts.nodes;
+	const posts = category.posts?.nodes || [];
+	const pageInfo = category.posts?.pageInfo || {
+		hasNextPage: false,
+		hasPreviousPage: false,
+		startCursor: null,
+		endCursor: null
+	};
 
 	return (
 		<div className="container mx-auto px-4 py-12 sm:px-6 lg:py-16 max-w-7xl">
@@ -68,10 +89,21 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 							<p className="text-muted-foreground font-medium">No posts found in this category yet.</p>
 						</div>
 					) : (
-						<div className="grid gap-12 sm:grid-cols-2">
-							{posts.map((post: any) => (
-								<PostCard key={post.slug} post={post} />
-							))}
+						<div className="space-y-12">
+							<div className="grid gap-12 sm:grid-cols-2">
+								{posts.map((post: any) => (
+									<PostCard key={post.slug} post={post} />
+								))}
+							</div>
+
+							<PaginationControls
+								hasNextPage={pageInfo.hasNextPage}
+								hasPreviousPage={pageInfo.hasPreviousPage}
+								startCursor={pageInfo.startCursor}
+								endCursor={pageInfo.endCursor}
+								basePath={`/category/${slug}`}
+								currentPage={page}
+							/>
 						</div>
 					)}
 				</main>

@@ -1,14 +1,35 @@
 import { getAllPosts } from '@/lib/wordpressApi';
 import Sidebar from '@/components/Sidebar';
-import InfinitePostList from '@/components/InfinitePostList';
+import PostCard from '@/components/PostCard';
+import PaginationControls from '@/components/PaginationControls';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { FileText, Sparkles } from 'lucide-react';
 
-export default async function Home() {
-  const postsData = await getAllPosts(10);
+export default async function Home(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const searchParams = await props.searchParams;
+  const after = typeof searchParams.after === 'string' ? searchParams.after : undefined;
+  const before = typeof searchParams.before === 'string' ? searchParams.before : undefined;
+  const page = typeof searchParams.page === 'string' ? parseInt(searchParams.page) : 1;
+
+  // If going backwards (before), we use 'last: 10, before: X'. 
+  // If going forwards (after), or default, we use 'first: 10, after: Y'.
+  let postsData;
+  if (before) {
+    postsData = await getAllPosts(undefined, undefined, 10, before);
+  } else {
+    postsData = await getAllPosts(10, after);
+  }
+
   const posts = postsData?.nodes || [];
-  const pageInfo = postsData?.pageInfo || { hasNextPage: false, endCursor: '' };
+  const pageInfo = postsData?.pageInfo || {
+    hasNextPage: false,
+    hasPreviousPage: false,
+    startCursor: null,
+    endCursor: null
+  };
 
   return (
     <div className="container mx-auto px-4 py-12 sm:px-6 lg:py-16 max-w-7xl">
@@ -49,7 +70,21 @@ export default async function Home() {
               </p>
             </div>
           ) : (
-            <InfinitePostList initialPosts={posts} initialPageInfo={pageInfo} />
+            <div className="space-y-12">
+              <div className="grid gap-12 sm:grid-cols-2">
+                {posts.map((post: any) => (
+                  <PostCard key={post.slug} post={post} />
+                ))}
+              </div>
+
+              <PaginationControls
+                hasNextPage={pageInfo.hasNextPage}
+                hasPreviousPage={pageInfo.hasPreviousPage}
+                startCursor={pageInfo.startCursor}
+                endCursor={pageInfo.endCursor}
+                currentPage={page}
+              />
+            </div>
           )}
         </main>
 

@@ -36,13 +36,20 @@ async function fetchAPI(query: string, { variables }: { variables?: any } = {}) 
   return json.data;
 }
 
-export async function getAllPosts(first = 10, after?: string) {
+export async function getAllPosts(first?: number, after?: string, last?: number, before?: string) {
+  // Default to first: 10 if no pagination args provided
+  if (!first && !last) {
+    first = 10;
+  }
+
   const data = await fetchAPI(
     `
-    query AllPosts($first: Int, $after: String) {
-      posts(first: $first, after: $after, where: { orderby: { field: DATE, order: DESC } }) {
+    query AllPosts($first: Int, $after: String, $last: Int, $before: String) {
+      posts(first: $first, after: $after, last: $last, before: $before, where: { orderby: { field: DATE, order: DESC } }) {
         pageInfo {
           hasNextPage
+          hasPreviousPage
+          startCursor
           endCursor
         }
         nodes {
@@ -75,6 +82,8 @@ export async function getAllPosts(first = 10, after?: string) {
       variables: {
         first,
         after,
+        last,
+        before,
       },
     }
   );
@@ -174,14 +183,25 @@ export async function getPageBySlug(slug: string) {
   return data?.page;
 }
 
-export async function getPostsByCategory(categorySlug: string) {
+export async function getPostsByCategory(categorySlug: string, first?: number, after?: string, last?: number, before?: string) {
+  // Default to first: 10 if no pagination args provided
+  if (!first && !last) {
+    first = 10;
+  }
+
   const data = await fetchAPI(
     `
-    query PostsByCategory($id: ID!) {
+    query PostsByCategory($id: ID!, $first: Int, $after: String, $last: Int, $before: String) {
       category(id: $id, idType: SLUG) {
         name
         description
-        posts(first: 20, where: { orderby: { field: DATE, order: DESC } }) {
+        posts(first: $first, after: $after, last: $last, before: $before, where: { orderby: { field: DATE, order: DESC } }) {
+          pageInfo {
+            hasNextPage
+            hasPreviousPage
+            startCursor
+            endCursor
+          }
           nodes {
             title
             excerpt
@@ -206,6 +226,10 @@ export async function getPostsByCategory(categorySlug: string) {
     {
       variables: {
         id: categorySlug,
+        first,
+        after,
+        last,
+        before,
       },
     }
   );
