@@ -9,6 +9,10 @@ import NextTopLoader from 'nextjs-toploader';
 export const metadata: Metadata = {
   title: "Minimalist Blog | Headless WordPress & Next.js",
   description: "A high-performance minimalist blog built with Next.js 14 and Headless WordPress.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function RootLayout({
