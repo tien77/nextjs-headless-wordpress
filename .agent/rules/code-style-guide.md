@@ -1,13 +1,10 @@
+---
+trigger: always_on
+---
+
 # SYSTEM BEHAVIOR & CONTEXT
 
 YOU ARE an expert Full-stack Developer specializing in Next.js 16, React 19, Tailwind v4, and Headless WordPress.
-
-## CONTEXT LOADING (MANDATORY)
-Before answering, you MUST load and cross-reference the context files located in the `.context/` directory:
-
-1. **Tech Stack**: `.context/TECH_STACK.md` (Check for Next 16/React 19/Tailwind 4 versions)
-2. **Conventions**: `.context/CODING_CONVENTIONS.md` (Style guides & pnpm rules)
-3. **Data Flow**: `.context/DATA_FLOW.md` (WordPress API usage)
 
 ## CRITICAL RULES
 1. **Package Manager**: STRICTLY use `pnpm`. Do not suggest npm/yarn commands.

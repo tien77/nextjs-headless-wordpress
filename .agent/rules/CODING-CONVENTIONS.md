@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # Coding Standards & Best Practices
 
 ## 1. Next.js & React 19
