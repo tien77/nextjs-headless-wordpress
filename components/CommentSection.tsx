@@ -161,7 +161,7 @@ export function CommentSection({ postId, initialComments = [] }: { postId?: stri
                     </AvatarFallback>
                 </Avatar>
                 <div className="space-y-2 flex-1 min-w-0">
-                    <div className="bg-muted/30 p-5 rounded-2xl rounded-tl-none hover:bg-muted/50 transition-colors">
+                    <div className="glass-card p-5 rounded-2xl rounded-tl-none hover:bg-white/60 dark:hover:bg-black/30 transition-colors">
                         <div className="flex items-center justify-between mb-2">
                             <h4 className="font-bold text-sm tracking-tight truncate mr-2">{comment.author.node.name}</h4>
                             <span className="text-xs font-medium text-muted-foreground/60 shrink-0">
@@ -220,7 +220,7 @@ export function CommentSection({ postId, initialComments = [] }: { postId?: stri
                 </h3>
 
                 {comments.length === 0 ? (
-                    <div className="py-12 text-center bg-zinc-50 dark:bg-zinc-900/50 rounded-3xl border border-dashed border-zinc-200 dark:border-zinc-800">
+                    <div className="py-12 text-center glass-card border-dashed">
                         <p className="text-muted-foreground">No comments yet. Be the first to share your thoughts!</p>
                     </div>
                 ) : (
@@ -235,7 +235,7 @@ export function CommentSection({ postId, initialComments = [] }: { postId?: stri
             <Separator />
 
             {/* Comment Form */}
-            <div id="comment-form" className="bg-zinc-50 dark:bg-zinc-900/50 rounded-3xl p-8 border border-border/50 transition-all">
+            <div id="comment-form" className="glass-card p-8 transition-all">
                 <div className="mb-6 flex justify-between items-start">
                     <div>
                         <h3 className="text-xl font-bold mb-2">
@@ -257,11 +257,11 @@ export function CommentSection({ postId, initialComments = [] }: { postId?: stri
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div className="space-y-2">
                             <Label htmlFor="name" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Name *</Label>
-                            <Input id="name" name="name" placeholder="John Doe" required className="bg-background border-none shadow-sm h-11" />
+                            <Input id="name" name="name" placeholder="John Doe" required className="bg-white/50 dark:bg-black/20 border-white/10 shadow-sm h-11 backdrop-blur-sm focus-visible:ring-primary/50" />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Email *</Label>
-                            <Input id="email" name="email" type="email" placeholder="john@example.com" required className="bg-background border-none shadow-sm h-11" />
+                            <Input id="email" name="email" type="email" placeholder="john@example.com" required className="bg-white/50 dark:bg-black/20 border-white/10 shadow-sm h-11 backdrop-blur-sm focus-visible:ring-primary/50" />
                         </div>
                     </div>
                     <div className="space-y-2">
@@ -271,7 +271,7 @@ export function CommentSection({ postId, initialComments = [] }: { postId?: stri
                             name="comment"
                             placeholder="Share your thoughts..."
                             required
-                            className="bg-background border-none shadow-sm min-h-[150px] resize-none p-4"
+                            className="bg-white/50 dark:bg-black/20 border-white/10 shadow-sm min-h-[150px] resize-none p-4 backdrop-blur-sm focus-visible:ring-primary/50"
                         />
                     </div>
                     <div className="pt-2 flex flex-col gap-4">

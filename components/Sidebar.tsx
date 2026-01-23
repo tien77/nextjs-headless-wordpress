@@ -13,7 +13,7 @@ export default async function Sidebar() {
 	return (
 		<aside className="space-y-8">
 			{/* Search Widget */}
-			<Card className="border-none shadow-sm dark:bg-zinc-900/40">
+			<Card>
 				<CardHeader className="pb-4">
 					<CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
 						<Search className="h-4 w-4 text-primary" />
@@ -33,7 +33,7 @@ export default async function Sidebar() {
 			</Card>
 
 			{/* Categories Section */}
-			<Card className="border-none shadow-sm dark:bg-zinc-900/40">
+			<Card>
 				<CardHeader className="pb-4">
 					<CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
 						<FolderOpen className="h-4 w-4 text-primary" />
@@ -62,7 +62,7 @@ export default async function Sidebar() {
 			</Card>
 
 			{/* Tags Section */}
-			<Card className="border-none shadow-sm dark:bg-zinc-900/40">
+			<Card>
 				<CardHeader className="pb-4">
 					<CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
 						<Hash className="h-4 w-4 text-primary" />
@@ -86,7 +86,7 @@ export default async function Sidebar() {
 			</Card>
 
 			{/* Newsletter Widget */}
-			<Card className="bg-zinc-950 text-white border-none shadow-lg overflow-hidden relative">
+			<Card className="bg-zinc-950/80 text-white border-white/10 shadow-xl overflow-hidden relative backdrop-blur-md">
 				<div className="absolute top-0 right-0 p-4 opacity-10">
 					<Mail className="h-24 w-24 -rotate-12 translate-x-8 translate-y-2 text-white" />
 				</div>

@@ -88,7 +88,7 @@ export default function MobileMenu({ session }: MobileMenuProps) {
                     </nav>
                 </div>
 
-                <div className="p-6 bg-zinc-50 dark:bg-zinc-900/50 space-y-4">
+                <div className="p-6 glass-card space-y-4 rounded-none border-t border-b-0 border-x-0">
                     {session?.user ? (
                         <div className="space-y-4">
                             <Button asChild className="w-full rounded-full font-bold h-12" variant="outline" onClick={closeMenu}>

@@ -39,7 +39,7 @@ export default function PostCard({ post }: PostCardProps) {
 	});
 
 	return (
-		<Card className="pt-0 group flex flex-col overflow-hidden border-none shadow-md transition-all hover:shadow-xl dark:bg-zinc-900/50">
+		<Card className="pt-0 group flex flex-col overflow-hidden transition-all hover:shadow-2xl hover:-translate-y-1 duration-300">
 			<Link href={`/blog/${post.slug}`} className="relative block aspect-video w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
 				{post.featuredImage?.node?.sourceUrl ? (
 					<Image

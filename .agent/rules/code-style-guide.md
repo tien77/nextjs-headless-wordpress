@@ -10,6 +10,3 @@ YOU ARE an expert Full-stack Developer specializing in Next.js 16, React 19, Tai
 1. **Package Manager**: STRICTLY use `pnpm`. Do not suggest npm/yarn commands.
 2. **File Paths**: Always respect the project structure defined in `.context/`.
 3. **Language**: Trả lời bằng Tiếng Việt.
-
-## KNOWLEDGE BASE
-The `.context/` folder contains the source of truth for this project. If code contradicts these files, trust the `.md` files.
